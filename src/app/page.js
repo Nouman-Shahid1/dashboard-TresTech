@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { FiEye, FiEyeOff, FiLock, FiMail, FiLogIn } from "react-icons/fi";
 
@@ -10,7 +10,16 @@ export default function Home() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [mounted, setMounted] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,7 +43,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="min-h-screen pt-[120px] bg-gradient-to-br from-[#0F0828] to-[#100A1D] flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-[#0F0828] to-[#100A1D] flex items-center justify-center p-4">
         <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           {/* Company Info Section */}
           <div className="hidden lg:flex flex-col justify-center p-8">
@@ -141,7 +150,7 @@ export default function Home() {
               </div>
 
               {/* Login Form */}
-              <form className="space-y-6">
+              <form className="space-y-6" onSubmit={handleSubmit}>
                 {error && (
                   <div className="bg-red-500/10 border border-red-500/20 text-red-500 px-4 py-3 rounded-lg text-sm">
                     {error}
@@ -163,6 +172,8 @@ export default function Home() {
                       id="username"
                       name="username"
                       type="text"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
                       className="bg-[#1A1335] border border-gray-700 text-white placeholder-gray-500 rounded-lg block w-full pl-10 pr-3 py-3 focus:outline-none focus:ring-2 focus:ring-[#f0a709] focus:border-transparent transition-all duration-300"
                       placeholder="Enter your username or email"
                       required
@@ -185,6 +196,8 @@ export default function Home() {
                       id="password"
                       name="password"
                       type={showPassword ? "text" : "password"}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                       className="bg-[#1A1335] border border-gray-700 text-white placeholder-gray-500 rounded-lg block w-full pl-10 pr-12 py-3 focus:outline-none focus:ring-2 focus:ring-[#f0a709] focus:border-transparent transition-all duration-300"
                       placeholder="Enter your password"
                       required
@@ -212,11 +225,12 @@ export default function Home() {
                 </div>
 
                 <button
-                  type="button"
+                  type="submit"
+                  disabled={isLoading}
                   className="w-full cursor-pointer bg-[#f0a709] hover:bg-[#ffbf4d] text-[#100A1D] font-bold py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#f0a709] focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
                 >
                   <FiLogIn className="mr-2" />
-                  Sign In
+                  {isLoading ? "Signing In..." : "Sign In"}
                 </button>
               </form>
 
@@ -247,5 +261,4 @@ export default function Home() {
       </div>
     </>
   );
-};
-
+}
