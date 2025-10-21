@@ -2,18 +2,18 @@
 
 import POSDashboard from "../../components/POSDashboard";
 import { useAuth } from "../../contexts/AuthContext";
+import { useState } from "react";
 
 export default function POSPage() {
   const { user } = useAuth();
   const userRole = user?.role || "user";
+  // Hooks must be called unconditionally and in the same order on every render
+  const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState(null);
 
   if (userRole === "pos") {
     return <POSDashboard />;
   }
-
-  // If not a POS user, show subscription plans
-  const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState(null);
 
   const plans = [
     {
