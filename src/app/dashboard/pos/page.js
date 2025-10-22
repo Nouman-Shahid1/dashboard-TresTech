@@ -19,7 +19,7 @@ export default function POSPage() {
     {
       id: 1,
       name: "Basic POS",
-      price: "$29",
+      price: "$30",
       period: "/month",
       features: [
         "Up to 100 products",
@@ -33,7 +33,7 @@ export default function POSPage() {
     {
       id: 2,
       name: "Professional POS",
-      price: "$79",
+      price: "$89",
       period: "/month",
       features: [
         "Unlimited products",
@@ -48,7 +48,7 @@ export default function POSPage() {
     {
       id: 3,
       name: "Enterprise POS",
-      price: "$149",
+      price: "$140",
       period: "/month",
       features: [
         "Everything in Professional",

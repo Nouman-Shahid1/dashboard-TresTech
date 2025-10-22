@@ -110,10 +110,10 @@ export default function AdminDashboard() {
           <h3 className="text-xl font-bold text-white mb-4">Recent Activities</h3>
           <div className="space-y-3">
             {[
-              { action: "Sarah Johnson subscribed", time: "5 min ago", icon: FiUsers },
-              { action: "John Smith accessed documents", time: "15 min ago", icon: FiFileText },
-              { action: "Michael Brown updated resume", time: "1 hour ago", icon: FiFileText },
-              { action: "Emily Davis viewed LinkedIn guide", time: "2 hours ago", icon: FiLinkedin }
+              { action: "Angela Boyce subscribed to Office 365 L1 IT Support", time: "5 min ago", icon: FiUsers },
+              { action: "Orlando Cooper accessed LinkedIn Optimization", time: "15 min ago", icon: FiLinkedin },
+              { action: "Danny Smith updated Resume Creation", time: "1 hour ago", icon: FiFileText },
+              { action: "Stepenosh Iro viewed Recruitment Services", time: "2 hours ago", icon: FiUsers }
             ].map((activity, index) => (
               <div key={index} className="flex items-center space-x-3 p-3 rounded-lg hover:bg-[#f0a709]/5 transition-colors">
                 <div className="w-8 h-8 bg-[#f0a709]/20 rounded-full flex items-center justify-center">

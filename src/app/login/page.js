@@ -29,10 +29,10 @@ export default function Login() {
           "trestech.admin": { password: "TresTech@2025", role: "admin" },
 
           // Users
-          "john.smith": { password: "John@2025", role: "user" },
-          "sarah.johnson": { password: "Sarah@2025", role: "user" },
-          "michael.brown": { password: "Michael@2025", role: "user" },
-          "emily.davis": { password: "Emily@2025", role: "user" },
+          "angela.boyce": { password: "Angela@2025", role: "user" },
+          "orlando.cooper": { password: "Orlando@2025", role: "user" },
+          "danny.smith": { password: "Danny@2025", role: "user" },
+          "stepenosh.iro": { password: "Stepenosh@2025", role: "user" },
 
           // POS User
           "alex.martinez": { password: "POS@2025", role: "pos" },
