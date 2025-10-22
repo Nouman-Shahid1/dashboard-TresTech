@@ -10,12 +10,7 @@ import { ALL_USERS, USER_DATA } from "../data/users";
 
 export default function AdminDashboard() {
   const { user } = useAuth();
-  const [activeTab, setActiveTab] = useState('overview');
-  const [services, setServices] = useState([
-    { id: 1, name: "LinkedIn Optimization", price: "$299", status: "Active" },
-    { id: 2, name: "Resume Creation", price: "$199", status: "Active" },
-    { id: 3, name: "Recruitment Services", price: "$1050", status: "Active" }
-  ]);
+
 
   const stats = [
     { title: "Total Users", value: ALL_USERS.length.toString(), icon: FiUsers, color: "text-blue-500" },
@@ -48,86 +43,28 @@ export default function AdminDashboard() {
         ))}
       </div>
 
-      {/* Tabs */}
-      <div className="mb-6">
-        <div className="flex space-x-4 border-b border-gray-700">
-          {['overview', 'services'].map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`px-4 py-2 font-medium capitalize ${
-                activeTab === tab 
-                  ? 'text-[#f0a709] border-b-2 border-[#f0a709]' 
-                  : 'text-gray-400 hover:text-white'
-              }`}
-            >
-              {tab}
-            </button>
+      {/* Overview Section */}
+      <div className="bg-gradient-to-b from-[#1A1335] to-[#100A1D] rounded-xl p-6 border border-[#f0a709]/20">
+        <h3 className="text-xl font-bold text-white mb-4">Recent Activities</h3>
+        <div className="space-y-3">
+          {[
+            { action: "Angela Boyce subscribed to Office 365 L1 IT Support", time: "Joined 2025-10-22", icon: FiUsers },
+            { action: "Orlando Cooper accessed LinkedIn Optimization", time: "Joined 2025-10-22", icon: FiLinkedin },
+            { action: "Danny Smith updated Resume Creation", time: "Joined 2025-10-20", icon: FiFileText },
+            { action: "Stepenosh Iro viewed Recruitment Services", time: "Joined 2025-10-17", icon: FiUsers }
+          ].map((activity, index) => (
+            <div key={index} className="flex items-center space-x-3 p-3 rounded-lg hover:bg-[#f0a709]/5 transition-colors">
+              <div className="w-8 h-8 bg-[#f0a709]/20 rounded-full flex items-center justify-center">
+                <activity.icon className="w-4 h-4 text-[#f0a709]" />
+              </div>
+              <div className="flex-1">
+                <p className="text-white text-sm">{activity.action}</p>
+                <p className="text-gray-400 text-xs">{activity.time}</p>
+              </div>
+            </div>
           ))}
         </div>
       </div>
-
-      {/* Service Management */}
-      {activeTab === 'services' && (
-        <div className="bg-gradient-to-b from-[#1A1335] to-[#100A1D] rounded-xl p-6 border border-[#f0a709]/20">
-          <div className="flex justify-between items-center mb-6">
-            <h3 className="text-xl font-bold text-white">Service Management</h3>
-            <button className="bg-[#f0a709] text-black px-4 py-2 rounded-lg hover:bg-[#ffbf4d] transition-colors flex items-center gap-2">
-              <FiPlus className="w-4 h-4" />
-              Add Service
-            </button>
-          </div>
-          
-          <div className="space-y-4">
-            {services.map((service) => (
-              <div key={service.id} className="flex items-center justify-between p-4 bg-[#100A1D] rounded-lg border border-gray-700">
-                <div>
-                  <h4 className="text-white font-medium">{service.name}</h4>
-                  <p className="text-gray-400 text-sm">{service.price}</p>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span className={`px-2 py-1 rounded text-xs ${
-                    service.status === 'Active' ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'
-                  }`}>
-                    {service.status}
-                  </span>
-                  <button className="text-blue-400 hover:text-blue-300">
-                    <FiEdit className="w-4 h-4" />
-                  </button>
-                  <button className="text-red-400 hover:text-red-300">
-                    <FiTrash2 className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Overview Section */}
-      {activeTab === 'overview' && (
-        <div className="bg-gradient-to-b from-[#1A1335] to-[#100A1D] rounded-xl p-6 border border-[#f0a709]/20">
-          <h3 className="text-xl font-bold text-white mb-4">Recent Activities</h3>
-          <div className="space-y-3">
-            {[
-              { action: "Angela Boyce subscribed to Office 365 L1 IT Support", time: "5 min ago", icon: FiUsers },
-              { action: "Orlando Cooper accessed LinkedIn Optimization", time: "15 min ago", icon: FiLinkedin },
-              { action: "Danny Smith updated Resume Creation", time: "1 hour ago", icon: FiFileText },
-              { action: "Stepenosh Iro viewed Recruitment Services", time: "2 hours ago", icon: FiUsers }
-            ].map((activity, index) => (
-              <div key={index} className="flex items-center space-x-3 p-3 rounded-lg hover:bg-[#f0a709]/5 transition-colors">
-                <div className="w-8 h-8 bg-[#f0a709]/20 rounded-full flex items-center justify-center">
-                  <activity.icon className="w-4 h-4 text-[#f0a709]" />
-                </div>
-                <div className="flex-1">
-                  <p className="text-white text-sm">{activity.action}</p>
-                  <p className="text-gray-400 text-xs">{activity.time}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 }
