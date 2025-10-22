@@ -1,24 +1,113 @@
 "use client";
 
 import { useState } from "react";
+import { ALL_USERS } from "../../data/users";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+} from 'chart.js';
+import { Line, Bar } from 'react-chartjs-2';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  BarElement
+);
 
 export default function AnalyticsPage() {
   const [timeRange, setTimeRange] = useState("30d");
 
+  // Calculate real stats from user data
+  const totalUsers = ALL_USERS.length;
+  const activeUsers = ALL_USERS.filter(user => user.subscriptionStatus === "Active").length;
+  
   const stats = [
-    { title: "Total Users", value: "156", change: "+12%", trend: "up" },
-    { title: "Active Subscriptions", value: "89", change: "+8%", trend: "up" },
+    { title: "Total Users", value: totalUsers.toString(), change: "+12%", trend: "up" },
+    { title: "Active Subscriptions", value: activeUsers.toString(), change: "+8%", trend: "up" },
     { title: "Revenue", value: "$12,450", change: "+23%", trend: "up" },
     { title: "Document Downloads", value: "1,234", change: "+15%", trend: "up" }
   ];
 
-  const chartData = [
-    { month: "Jan", users: 45, revenue: 8500 },
-    { month: "Feb", users: 52, revenue: 9200 },
-    { month: "Mar", users: 61, revenue: 10100 },
-    { month: "Apr", users: 78, revenue: 11800 },
-    { month: "May", users: 89, revenue: 12450 }
+  const monthlyData = [
+    { month: "Jan", users: Math.floor(totalUsers * 0.1), revenue: 2500 },
+    { month: "Feb", users: Math.floor(totalUsers * 0.15), revenue: 3200 },
+    { month: "Mar", users: Math.floor(totalUsers * 0.25), revenue: 4100 },
+    { month: "Apr", users: Math.floor(totalUsers * 0.35), revenue: 5800 },
+    { month: "May", users: Math.floor(totalUsers * 0.45), revenue: 7450 },
+    { month: "Jun", users: Math.floor(totalUsers * 0.55), revenue: 9200 },
+    { month: "Jul", users: Math.floor(totalUsers * 0.65), revenue: 11100 },
+    { month: "Aug", users: Math.floor(totalUsers * 0.75), revenue: 13500 },
+    { month: "Sep", users: Math.floor(totalUsers * 0.85), revenue: 16200 },
+    { month: "Oct", users: Math.floor(totalUsers * 0.92), revenue: 19800 },
+    { month: "Nov", users: Math.floor(totalUsers * 0.97), revenue: 23400 },
+    { month: "Dec", users: totalUsers, revenue: 27650 }
   ];
+
+  const userGrowthData = {
+    labels: monthlyData.map(d => d.month),
+    datasets: [
+      {
+        label: 'Users',
+        data: monthlyData.map(d => d.users),
+        borderColor: '#f0a709',
+        backgroundColor: 'rgba(240, 167, 9, 0.1)',
+        tension: 0.4,
+        fill: true,
+      },
+    ],
+  };
+
+  const revenueData = {
+    labels: monthlyData.map(d => d.month),
+    datasets: [
+      {
+        label: 'Revenue ($)',
+        data: monthlyData.map(d => d.revenue),
+        backgroundColor: '#10b981',
+        borderColor: '#059669',
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+    scales: {
+      x: {
+        grid: {
+          color: 'rgba(75, 85, 99, 0.3)',
+        },
+        ticks: {
+          color: '#9ca3af',
+        },
+      },
+      y: {
+        grid: {
+          color: 'rgba(75, 85, 99, 0.3)',
+        },
+        ticks: {
+          color: '#9ca3af',
+        },
+      },
+    },
+  };
 
   return (
     <div className="p-6">
@@ -55,42 +144,16 @@ export default function AnalyticsPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-gradient-to-b from-[#1A1335] to-[#100A1D] rounded-xl p-6 border border-[#f0a709]/20">
-          <h3 className="text-xl font-bold text-white mb-4">User Growth</h3>
-          <div className="space-y-4">
-            {chartData.map((data, index) => (
-              <div key={index} className="flex items-center justify-between">
-                <span className="text-gray-400">{data.month}</span>
-                <div className="flex items-center gap-4">
-                  <div className="w-32 bg-gray-700 rounded-full h-2">
-                    <div 
-                      className="bg-[#f0a709] h-2 rounded-full" 
-                      style={{ width: `${(data.users / 100) * 100}%` }}
-                    ></div>
-                  </div>
-                  <span className="text-white font-medium">{data.users}</span>
-                </div>
-              </div>
-            ))}
+          <h3 className="text-xl font-bold text-white mb-4">User Growth (2025)</h3>
+          <div className="h-64">
+            <Line data={userGrowthData} options={chartOptions} />
           </div>
         </div>
 
         <div className="bg-gradient-to-b from-[#1A1335] to-[#100A1D] rounded-xl p-6 border border-[#f0a709]/20">
-          <h3 className="text-xl font-bold text-white mb-4">Revenue Trend</h3>
-          <div className="space-y-4">
-            {chartData.map((data, index) => (
-              <div key={index} className="flex items-center justify-between">
-                <span className="text-gray-400">{data.month}</span>
-                <div className="flex items-center gap-4">
-                  <div className="w-32 bg-gray-700 rounded-full h-2">
-                    <div 
-                      className="bg-green-500 h-2 rounded-full" 
-                      style={{ width: `${(data.revenue / 15000) * 100}%` }}
-                    ></div>
-                  </div>
-                  <span className="text-white font-medium">${data.revenue}</span>
-                </div>
-              </div>
-            ))}
+          <h3 className="text-xl font-bold text-white mb-4">Revenue Trend (2025)</h3>
+          <div className="h-64">
+            <Bar data={revenueData} options={chartOptions} />
           </div>
         </div>
       </div>
